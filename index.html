@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SismAllarm - Sistema Avanzato di Rilevazione Sismica</title>
+    <link rel="icon" type="image/png" href="images/sismallarm_logo_NoBackgnd.png">
+    <!--script src="https://cdn.tailwindcss.com"></script-->
+    <!-- build da terminale: ./tailwindcss-linux-x64 -i ./static/input.css -o ./tailwind_sismallarm_build.css --minify --config tailwind.config.js -->
+    <link rel="stylesheet" href="tailwind_sismallarm_build.css">
+    <!--script src="https://unpkg.com/lucide@latest"></script-->
+    <script src="lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+        .hero-gradient { background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%); }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); }
+        .feature-card { transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .lang-btn.active { background-color: #dc2626; color: white; }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .slide-in { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <img src="images/sismallarm_logo_NoBackgnd.png" alt="Logo" width="32" height="32" class="w-8 h-8 object-contain" />
+                    <span class="text-2xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">SismAllarm</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#come-funziona" class="nav-link text-slate-600 hover:text-red-600 font-medium transition">Come Funziona</a>
+                    <a href="#moduli" class="nav-link text-slate-600 hover:text-red-600 font-medium transition">Moduli</a>
+                    <a href="#versioni" class="nav-link text-slate-600 hover:text-red-600 font-medium transition">Versioni</a>
+                    <a href="#manutenzione" class="nav-link text-slate-600 hover:text-red-600 font-medium transition">Manutenzione</a>
+                    <a href="#contatti" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium">Contattaci</a>
+                </div>
+                <!---torna a mctecnologie.net-->
+                <a href="https://www.mctecnologie.net" target="_blank" class="text-slate-600 hover:text-blue-600 font-medium text-xs pl-3 pr-1 py-px transition inline-block"> powered by MCT </a>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center bg-slate-200 rounded-lg p-1 ml-4">
+                    <button onclick="switchLanguage('it')" id="btn-it" class="lang-btn active px-3 py-1 rounded-md text-sm font-medium transition">IT</button>
+                    <button onclick="switchLanguage('en')" id="btn-en" class="lang-btn px-3 py-1 rounded-md text-sm font-medium transition text-slate-600">EN</button>
+                </div>
+
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#come-funziona" class="block py-2 text-slate-600">Come Funziona</a>
+                <a href="#moduli" class="block py-2 text-slate-600">Moduli</a>
+                <a href="#versioni" class="block py-2 text-slate-600">Versioni</a>
+                <a href="#manutenzione" class="block py-2 text-slate-600">Manutenzione</a>
+                <a href="#contatti" class="block py-2 text-red-600 font-medium">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-32 pb-20 px-4 sm:px-6 lg:px-8 text-white">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="slide-in">
+                <div class="inline-flex items-center px-4 py-2 bg-white/20 rounded-full mb-6 backdrop-blur-sm">
+                    <i data-lucide="shield-check" class="w-4 h-4 mr-2"></i>
+                    <span class="text-sm font-medium" data-i18n="hero-badge">Tecnologia Italiana Avanzata</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight" data-i18n="hero-title">
+                    Proteggi ciò che conta di più
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-red-100" data-i18n="hero-subtitle">
+                    Sistema intelligente di rilevazione sismica con allarme sonoroe e intervento automatico su impianti e elettrovalvole.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#versioni" class="px-8 py-4 bg-white text-red-600 rounded-lg font-bold text-lg hover:bg-slate-100 transition text-center inline-flex items-center justify-center gap-2">
+                        <span data-i18n="cta-primary">Scopri le Versioni</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#contatti" class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white/10 transition text-center" data-i18n="cta-secondary">
+                        Richiedi Preventivo
+                    </a>
+                </div>
+            </div>
+            <div class="relative">
+                <!--img src="https://static.photos/technology/640x360/42" alt="SismAllarm Device" class="rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500"-->
+                <img src="images/sismallarm_MainPhoto.png" style="max-height:450px;" alt="SismAllarm Device" class="rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
+                <div class="absolute -bottom-6 -left-6 bg-white text-slate-800 p-4 rounded-xl shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="globe" class="w-6 h-6 text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm" data-i18n="hero-stat-1">Modello Pro</p>
+                            <p class="text-xs text-slate-500" data-i18n="hero-stat-2">Dashboard Web inclusa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="come-funziona" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4" data-i18n="how-title">La Tecnologia SismAllarm</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto" data-i18n="how-subtitle">
+                    Sensori ad alta precisione monitorano costantemente le vibrazioni sismiche e intervengono subbito nel momento in cui rilevano scosse pericolose.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="scan-line" class="w-7 h-7 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800" data-i18n="step-1-title">Rilevamento Continuo</h3>
+                    <p class="text-slate-600" data-i18n="step-1-desc">
+                        Sensori sismici avanzati analizzano in tempo reale le vibrazioni, confrontandole con soglie di energia interne calibrate per rilevare scosse pericolose.
+                    </p>
+                </div>
+
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-7 h-7 text-orange-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800" data-i18n="step-2-title">Analisi Istantanea</h3>
+                    <p class="text-slate-600" data-i18n="step-2-desc">
+                        Algoritmi intelligenti determinano se la scossa ha raggiunto livelli critici, attivando immediatamente i protocolli di sicurezza configurati.
+                    </p>
+                </div>
+
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                    <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="shield-alert" class="w-7 h-7 text-red-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800" data-i18n="step-3-title">Intervento Automatico</h3>
+                    <p class="text-slate-600" data-i18n="step-3-desc">
+                        Attivazione immediata della sirena e/o chiusura elettrovalvole gas per prevenire fughe e garantire la massima sicurezza dello stabile.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="moduli" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4" data-i18n="modules-title">Moduli Configurabili</h2>
+                <p class="text-xl text-slate-600" data-i18n="modules-subtitle">Personalizza il tuo sistema in base alle esigenze specifiche del tuo edificio</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Module 1: Audio Alarm -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200">
+                    <div class="h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-20">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <i data-lucide="bell-electric" class="w-32 h-32 text-white pulse-animation"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-center text-white p-6">
+                            <h3 class="text-2xl font-bold" data-i18n="audio-title">Modulo Allarme Sonoro</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-slate-600 mb-6" data-i18n="audio-desc">
+                            Sirena potente integrata da 110dB per segnalazione acustica immediata al rilevamento di scosse pericolose. Disponibile anche in versione autonoma a batteria.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="audio-feat-1">Segnalazione acustica istantanea</span>
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="audio-feat-2">Sirena integrata da 110dB</span>
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="audio-feat-3">Versione a batteria disponibile</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 2: Gas Valve -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200">
+                    <div class="h-48 bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-20">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <i data-lucide="brick-wall-fire" class="w-32 h-32 text-white pulse-animation"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-center text-white p-6">
+                            <h3 class="text-2xl font-bold" data-i18n="gas-title">Modulo Elettrovalvole Gas</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-slate-600 mb-6" data-i18n="gas-desc">
+                            Intervento automatico sulle elettrovalvole delle condutture gas per interrompere immediatamente il flusso in caso di scossa sismica pericolosa.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="gas-feat-1">Chiusura automatica valvole gas</span>
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="gas-feat-2">Prevenzione fughe e incendi</span>
+                            </li>
+                            <li class="flex items-center text-slate-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
+                                <span data-i18n="gas-feat-3">Compatibile con impianti esistenti</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Versions Comparison -->
+    <section id="versioni" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4" data-i18n="versions-title">Scegli la Versione Adatta a Te</h2>
+                <p class="text-xl text-slate-600" data-i18n="versions-subtitle">Dal sistema base alla soluzione completa con monitoraggio cloud</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Pro Version -->
+                <div class="bg-slate-50 rounded-2xl p-8 border-2 border-slate-200 hover:border-slate-300 transition">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="wifi" class="w-8 h-8 text-orange-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-800" data-i18n="pro-title">Pro</h3>
+                        <p class="text-slate-500 mt-2" data-i18n="pro-subtitle">Con connessione Ethernet</p>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-red-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700 font-medium" data-i18n="pro-feat-1">Tutte le funzioni Standard</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-red-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700 font-medium" data-i18n="pro-feat-2">Connessione Ethernet integrata</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-red-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700 font-medium" data-i18n="pro-feat-3">Dashboard web storico</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-red-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700 font-medium" data-i18n="pro-feat-4">Report disponibili 24/7</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-red-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700 font-medium" data-i18n="pro-feat-5">Autodiagnosi integrata</span>
+                        </div>
+                    </div>
+                    <a href="#dashboard" class="w-full py-4 bg-orange-600 text-white rounded-lg font-bold text-lg hover:bg-red-700 transition shadow-lg flex items-center justify-center gap-2" data-i18n="btn-configure">
+                        Scopri Pro
+                    </a>
+                </div>
+
+                <!-- Standard Version -->
+                <div class="bg-white rounded-2xl p-8 border-2 border-red-500 shadow-xl relative transform scale-105">
+                    <div class="absolute top-0 right-0 bg-red-600 text-white px-4 py-1 rounded-bl-lg rounded-tr-lg text-sm font-bold" data-i18n="pro-badge">POPOLARE</div>
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="cpu" class="w-8 h-8 text-slate-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-800" data-i18n="std-title">Standard</h3>
+                        <p class="text-slate-500 mt-2" data-i18n="std-subtitle">Alimentazione a rete elettrica</p>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="std-feat-1">Rilevamento sismico avanzato</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="std-feat-2">Modulo allarme sonoro da 110dB</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="std-feat-3">Modulo elettrovalvole (opzionale)</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="std-feat-4">Alimentazione 220V</span>
+                        </div>
+                    </div>
+                    <a href="#contatti" class="w-full py-3 border-2 border-slate-300 rounded-lg font-semibold text-slate-600 hover:border-green-600 hover:text-green-600 transition text-center block" data-i18n="btn-maintenance">
+                        Richiedi Info
+                    </a>
+                </div>
+
+                <!-- Battery Version -->
+                <div class="bg-slate-50 rounded-2xl p-8 border-2 border-slate-200 hover:border-slate-300 transition">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="battery-charging" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-800" data-i18n="battery-title">Solo Sirena Battery</h3>
+                        <p class="text-slate-500 mt-2" data-i18n="battery-subtitle">Autonoma e wireless</p>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="battery-feat-1">Sirena autonoma 100dB</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="battery-feat-2">Alimentazione a batteria</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="battery-feat-3">Installazione semplice</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500 mr-3 mt-0.5"></i>
+                            <span class="text-slate-700" data-i18n="battery-feat-4">Piano manutenzione incluso</span>
+                        </div>
+                    </div>
+                    <a href="#manutenzione" class="w-full py-3 border-2 border-slate-300 rounded-lg font-semibold text-slate-600 hover:border-green-600 hover:text-green-600 transition text-center block" data-i18n="btn-maintenance">
+                        Vedi Piano Manutenzione
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section id="dashboard" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-600/20 rounded-full mb-6 border border-blue-500/30">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4 mr-2 text-blue-400"></i>
+                        <span class="text-sm font-medium text-blue-300" data-i18n="dashboard-badge">Versione Pro Exclusive</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6" data-i18n="dashboard-title">Dashboard Web Avanzata</h2>
+                    <p class="text-lg text-slate-300 mb-8" data-i18n="dashboard-desc">
+                        Con la versione Pro, accedi al tuo pannello di controllo personale via web. Visualizza lo storico completo delle rilevazioni, ricevi i report e monitora lo stato del sistema da qualsiasi dispositivo.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <i data-lucide="history" class="w-6 h-6 text-blue-400 mb-2"></i>
+                            <h4 class="font-semibold mb-1" data-i18n="dash-feat-1">Storico Eventi</h4>
+                            <p class="text-sm text-slate-400" data-i18n="dash-feat-1-desc">Registro completo scosse rilevate</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <i data-lucide="smartphone" class="w-6 h-6 text-green-400 mb-2"></i>
+                            <h4 class="font-semibold mb-1" data-i18n="dash-feat-2">Mobile Ready</h4>
+                            <p class="text-sm text-slate-400" data-i18n="dash-feat-2-desc">Accesso da smartphone e tablet</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <i data-lucide="bell" class="w-6 h-6 text-red-400 mb-2"></i>
+                            <h4 class="font-semibold mb-1" data-i18n="dash-feat-3">Autodiagnosi 24/7</h4>
+                            <p class="text-sm text-slate-400" data-i18n="dash-feat-3-desc">Alert in caso di guasto</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6 text-purple-400 mb-2"></i>
+                            <h4 class="font-semibold mb-1" data-i18n="dash-feat-4">Statistiche</h4>
+                            <p class="text-sm text-slate-400" data-i18n="dash-feat-4-desc">Analisi dati e report mensili</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-slate-800 rounded-xl p-4 shadow-2xl border border-slate-700">
+                        <div class="flex items-center justify-between mb-4 border-b border-slate-700 pb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <span class="text-slate-400 text-sm">SismAllarm Dashboard</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="h-32 bg-slate-700 rounded-lg flex items-end justify-around p-4">
+                                <div class="w-8 bg-blue-500 rounded-t h-1/4 opacity-50"></div>
+                                <div class="w-8 bg-blue-500 rounded-t h-1/3 opacity-50"></div>
+                                <div class="w-8 bg-blue-500 rounded-t h-1/2 opacity-50"></div>
+                                <div class="w-8 bg-blue-500 rounded-t h-1/4 opacity-50"></div>
+                                <div class="w-8 bg-red-500 rounded-t h-3/4"></div>
+                                <div class="w-8 bg-blue-500 rounded-t h-1/3 opacity-50"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="bg-slate-700 p-3 rounded-lg">
+                                    <div class="text-xs text-slate-400">Status</div>
+                                    <div class="text-green-400 font-bold">Active</div>
+                                </div>
+                                <div class="bg-slate-700 p-3 rounded-lg">
+                                    <div class="text-xs text-slate-400">Sensori</div>
+                                    <div class="text-white font-bold">4 Online</div>
+                                </div>
+                                <div class="bg-slate-700 p-3 rounded-lg">
+                                    <div class="text-xs text-slate-400">Ultimo Evento</div>
+                                    <div class="text-white font-bold">2h fa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-6 italic text-center">
+                * immagine a scopo illustrativo, il prodotto può variare
+            </p>
+        </div>
+    </section>
+
+    <!-- Maintenance Section -->
+    <section id="manutenzione" class="py-20 px-4 sm:px-6 lg:px-8 bg-green-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <!--img src="https://static.photos/workspace/640x360/123" alt="Manutenzione" class="rounded-2xl shadow-xl"-->
+                    <img src="images/sismallarm_ServiceMaintenance.png" style="max-height:450px;" alt="Manutenzione" class="rounded-2xl shadow-xl">
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="inline-flex items-center px-4 py-2 bg-green-100 rounded-full mb-6">
+                        <i data-lucide="wrench" class="w-4 h-4 mr-2 text-green-600"></i>
+                        <span class="text-sm font-medium text-green-700" data-i18n="maintenance-badge">Servizio Clienti</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6" data-i18n="maintenance-title">Piano Manutenzione Annua</h2>
+                    <p class="text-lg text-slate-600 mb-6" data-i18n="maintenance-desc">
+                        Per la versione a batteria, offriamo un piano di manutenzione annuale completo che include la sostituzione programmata della batteria e il controllo funzionale del dispositivo.
+                    </p>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-green-200 mb-6">
+                        <h3 class="font-bold text-lg mb-4 text-slate-800" data-i18n="maintenance-includes">Il piano include:</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="battery" class="w-5 h-5 text-green-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="maint-1">Sostituzione batteria certificata</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="maint-2">Test funzionalità completo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="file-text" class="w-5 h-5 text-green-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="maint-3">Libretto di manutenzione ufficiale</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="headphones" class="w-5 h-5 text-green-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="maint-4">Supporto tecnico prioritario</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-4 bg-green-100 rounded-lg">
+                        <i data-lucide="shield-check" class="w-10 h-10 text-green-700"></i>
+                        <div>
+                            <p class="font-bold text-green-800" data-i18n="maintenance-guarantee">Garanzia estesa inclusa</p>
+                            <p class="text-sm text-green-700" data-i18n="maintenance-guarantee-desc">Valida solo con piano manutenzione attivo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Collaudo Funzionale -->
+    <section id="collaudo" class="py-20 px-4 sm:px-6 lg:px-8 bg-blue-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <img src="images/sismallarm_preview_WhiteFloor.png" style="max-height:450px;" alt="Collaudo Università del Sannio" class="rounded-2xl shadow-xl"
+                alt="Sismallarm device undergoing functional testing at the University of Sannio laboratory. The device is mounted on a metal platform with clamps and wires attached, and labeled with SISmallarm. The environment is a tiled floor with a white wall and visible cables. The scene conveys a sense of technical precision and scientific evaluation. Text on the device: SISmallarm, www.sismallarm.com.">
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full mb-6">
+                        <i data-lucide="check-square" class="w-4 h-4 mr-2 text-blue-600"></i>
+                        <span class="text-sm font-medium text-blue-700" data-i18n="collaudo-badge">Collaudo Università del Sannio</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6" data-i18n="collaudo-title">Collaudo Funzionale</h2>
+                    <p class="text-lg text-slate-600 mb-6" data-i18n="collaudo-desc">
+                        Il sistema SismAllarm è stato sottoposto a collaudo funzionale presso i laboratori dell'Università del Sannio, in collaborazione con il Dipartimento di Ingegneria. I test hanno confermato la corretta funzionalità di rivelazione sismica, con una adeguata robustezza dell'algoritmo di elaborazione.
+                    </p>
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-blue-200 mb-6">
+                        <h3 class="font-bold text-lg mb-4 text-slate-800" data-i18n="collaudo-results-title">Risultati del Collaudo:</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="activity" class="w-5 h-5 text-blue-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="collaudo-result-1">Attivazione mirata sulle vibrazioni sismiche</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-blue-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="collaudo-result-2">Intervento automatico su controllo elettrico</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="award" class="w-5 h-5 text-blue-600 mr-3 mt-0.5"></i>
+                                <span class="text-slate-700" data-i18n="collaudo-result-3">Funzionalità conforme ai requisiti tecnici</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-blue-100 rounded-lg">
+                        <i data-lucide="university" class="w-10 h-10 text-blue-700"></i>
+                        <div>
+                            <p class="font-bold text-blue-800" data-i18n="collaudo-collab-title">Collaborazione scientifica</p>
+                            <p class="text-sm text-blue-700" data-i18n="collaudo-collab-desc">Test realizzati in collaborazione con l'Università del Sannio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-800" data-i18n="specs-title">Dettagli</h2>
+            
+            <div class="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200">
+                <table class="w-full text-left">
+                    <tbody class="divide-y divide-slate-200">
+                        <tr class="bg-white">
+                            <td class="px-6 py-4 font-medium text-slate-700 w-1/3" data-i18n="spec-sensor">Sensore</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-sensor-val">Accelerometro MEMS ad alta sensibilità</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-range">Installazione a parete</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-range-val">Fissato con 3 tasselli</td>
+                        </tr>
+                        <tr class="bg-white">
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-power">Alimentazione</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-power-val">220V AC / Batteria integrata (versione battery)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-alarm">Allarme sonoro</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-alarm-val">110dB @ 1 metro, frequenza 3kHz</td>
+                        </tr>
+                        <tr class="bg-white">
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-valve">Elettrovalvole</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-valve-val">Compatibili 1/2" - 2"</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-net">Connettività Pro</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-net-val">Ethernet RJ45</td>
+                        </tr>
+                        <tr class="bg-white">
+                            <td class="px-6 py-4 font-medium text-slate-700" data-i18n="spec-temp">Temperatura</td>
+                            <td class="px-6 py-4 text-slate-600" data-i18n="spec-temp-val">-10°C / +45°C umidità 90% non condensante</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contatti" class="py-20 px-4 sm:px-6 lg:px-8 gradient-bg text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" data-i18n="contact-title">Richiedi Informazioni</h2>
+            <p class="text-xl text-slate-300 mb-12" data-i18n="contact-subtitle">Il nostro team tecnico è a disposizione per analizzare le esigenze specifiche del tuo edificio</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12 text-left">
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <i data-lucide="mail" class="w-8 h-8 mb-4 text-red-400"></i>
+                    <h3 class="font-bold mb-2" data-i18n="contact-email">Email</h3>
+                    <p class="text-slate-300">g_meo@simprogetti.it</p>
+                    <p class="text-slate-300">info@mctecnologie.net</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <i data-lucide="phone" class="w-8 h-8 mb-4 text-red-400"></i>
+                    <h3 class="font-bold mb-2" data-i18n="contact-phone">Telefono</h3>
+                    <p class="text-slate-300">+39 392 184 10 21</p>
+                    <!-- <p class="text-slate-300">+39 02 1234 5679</p> -->
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <i data-lucide="map-pin" class="w-8 h-8 mb-4 text-red-400"></i>
+                    <h3 class="font-bold mb-2" data-i18n="contact-office">Sede</h3>
+                    <p class="text-slate-300">Via On. Francesco Napolitano P CO C</p>
+                    <p class="text-slate-300">80035 Nola, (NA) Italia</p>
+                </div>
+            </div>
+            
+            <!-- Contact Form (hidden, togliere style="display: none per vederlo) -->
+            <form style="display: none;" class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-left">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2" data-i18n="form-name">Nome</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-slate-300 focus:outline-none focus:border-red-400" placeholder="Mario Rossi">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2" data-i18n="form-email">Email</label>
+                        <input type="email" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-slate-300 focus:outline-none focus:border-red-400" placeholder="mario@esempio.it">
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2" data-i18n="form-subject">Tipo Richiesta</label>
+                    <select class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:border-red-400 [&>option]:text-slate-800">
+                        <option value="" data-i18n="form-select">Seleziona...</option>
+                        <option value="info" data-i18n="form-opt-info">Informazioni generali</option>
+                        <option value="preventivo" data-i18n="form-opt-quote">Preventivo</option>
+                        <option value="pro" data-i18n="form-opt-pro">Versione Pro</option>
+                        <option value="battery" data-i18n="form-opt-battery">Versione Battery</option>
+                        <option value="maintenance" data-i18n="form-opt-maint">Piano manutenzione</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2" data-i18n="form-message">Messaggio</label>
+                    <textarea rows="4" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-slate-300 focus:outline-none focus:border-red-400" placeholder="Descrivi le tue esigenze..."></textarea>
+                </div>
+                <button type="submit" class="w-full py-4 bg-red-600 text-white rounded-lg font-bold text-lg hover:bg-red-700 transition flex items-center justify-center gap-2">
+                    <span data-i18n="form-send">Invia Richiesta</span>
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 mb-8">
+            <div class="col-span-2">
+                <div class="flex items-center space-x-2 mb-4">
+                    <img src="images/sismallarm_logo_NoBackgnd.png" alt="SismAllarm" class="w-10 h-10">
+                    <span class="text-xl font-bold text-white">SismAllarm</span>
+                </div>
+                <p class="mb-4 max-w-sm" data-i18n="footer-desc">
+                    Tecnologia italiana avanzata per la sicurezza sismica. Proteggiamo edifici e persone attraverso sistemi intelligenti di rilevamento e intervento automatico.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4" data-i18n="footer-links">Sezioni</h4>
+                <ul class="space-y-2">
+                    <li><a href="#come-funziona" class="hover:text-white transition" data-i18n="nav-how">Come Funziona</a></li>
+                    <li><a href="#moduli" class="hover:text-white transition" data-i18n="nav-modules">Moduli</a></li>
+                    <li><a href="#versioni" class="hover:text-white transition" data-i18n="nav-versions">Versioni</a></li>
+                    <li><a href="#contatti" class="hover:text-white transition" data-i18n="nav-contact">Contatti</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4" data-i18n="footer-legal">Legale</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="alert('Questa sezione è in costruzione.'); return false;" class="hover:text-white transition" data-i18n="nav-privacy">Privacy Policy</a></li>
+                    <li><a href="#" onclick="alert('Questa sezione è in costruzione.'); return false;" class="hover:text-white transition" data-i18n="nav-terms">Termini di Servizio</a></li>
+                    <li><a href="#" onclick="alert('Questa sezione è in costruzione.'); return false;" class="hover:text-white transition" data-i18n="nav-certs">Certificazioni</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm">SISMALLARM© - <span data-i18n="footer-rights">Tutti i diritti riservati</span></p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Translations object
+        const translations = {
+            it: {
+            "hero-badge": "Tecnologia Italiana Avanzata",
+            "hero-title": "Proteggi ciò che conta di più",
+            "hero-subtitle": "Sistema intelligente di rilevazione sismica con allarme sonoro e intervento automatico su impianti e elettrovalvole.",
+            "hero-stat-1": "Modello Pro",
+            "hero-stat-2": "Dashboard Web inclusa",
+            "cta-primary": "Scopri le Versioni",
+            "cta-secondary": "Richiedi Preventivo",
+            "how-title": "La Tecnologia SismAllarm",
+            "how-subtitle": "Sensori ad alta precisione monitorano costantemente le vibrazioni sismiche e intervengono subbito nel momento in cui rilevano scosse pericolose.",
+            "step-1-title": "Rilevamento Continuo",
+            "step-1-desc": "Sensori sismici avanzati analizzano in tempo reale le vibrazioni, confrontandole con soglie di energia interne calibrate per rilevare scosse pericolose.",
+            "step-2-title": "Analisi Istantanea",
+            "step-2-desc": "Algoritmi intelligenti determinano se la scossa ha raggiunto livelli critici, attivando immediatamente i protocolli di sicurezza configurati.",
+            "step-3-title": "Intervento Automatico",
+            "step-3-desc": "Attivazione immediata della sirena e/o chiusura elettrovalvole gas per prevenire fughe e garantire la massima sicurezza dello stabile.",
+            "modules-title": "Moduli Configurabili",
+            "modules-subtitle": "Personalizza il tuo sistema in base alle esigenze specifiche del tuo edificio",
+            "audio-title": "Modulo Allarme Sonoro",
+            "audio-desc": "Sirena potente integrata da 110dB per segnalazione acustica immediata al rilevamento di scosse pericolose. Disponibile anche in versione autonoma a batteria.",
+            "audio-feat-1": "Segnalazione acustica istantanea",
+            "audio-feat-2": "Sirena integrata da 110dB",
+            "audio-feat-3": "Versione a batteria disponibile",
+            "gas-title": "Modulo Elettrovalvole Gas",
+            "gas-desc": "Intervento automatico sulle elettrovalvole delle condutture gas per interrompere immediatamente il flusso in caso di scossa sismica pericolosa.",
+            "gas-feat-1": "Chiusura automatica valvole gas",
+            "gas-feat-2": "Prevenzione fughe e incendi",
+            "gas-feat-3": "Compatibile con impianti esistenti",
+            "versions-title": "Scegli la Versione Adatta a Te",
+            "versions-subtitle": "Dal sistema base alla soluzione completa con monitoraggio cloud",
+            "std-title": "Standard",
+            "std-subtitle": "Alimentazione a rete elettrica",
+            "std-feat-1": "Rilevamento sismico avanzato",
+            "std-feat-2": "Modulo allarme sonoro da 110dB",
+            "std-feat-3": "Modulo elettrovalvole (opzionale)",
+            "std-feat-4": "Alimentazione 220V",
+            "btn-info": "Richiedi Info",
+            "pro-badge": "POPOLARE",
+            "pro-title": "Pro",
+            "pro-subtitle": "Con connessione Ethernet",
+            "pro-feat-1": "Tutte le funzioni Standard",
+            "pro-feat-2": "Connessione Ethernet integrata",
+            "pro-feat-3": "Dashboard web storico",
+            "pro-feat-4": "Report disponibili 24/7",
+            "pro-feat-5": "Autodiagnosi integrata",
+            "btn-configure": "Scopri Pro",
+            "battery-title": "Solo Sirena Battery",
+            "battery-subtitle": "Autonoma e wireless",
+            "battery-feat-1": "Sirena autonoma 100dB",
+            "battery-feat-2": "Alimentazione a batteria",
+            "battery-feat-3": "Installazione semplice",
+            "battery-feat-4": "Piano manutenzione incluso",
+            "btn-maintenance": "Vedi Piano Manutenzione",
+            "dashboard-badge": "Versione Pro Exclusive",
+            "dashboard-title": "Dashboard Web Avanzata",
+            "dashboard-desc": "Con la versione Pro, accedi al tuo pannello di controllo personale via web. Visualizza lo storico completo delle rilevazioni, ricevi i report e monitora lo stato del sistema da qualsiasi dispositivo.",
+            "dash-feat-1": "Storico Eventi",
+            "dash-feat-1-desc": "Registro completo scosse rilevate",
+            "dash-feat-2": "Mobile Ready",
+            "dash-feat-2-desc": "Accesso da smartphone e tablet",
+            "dash-feat-3": "Autodiagnosi Real-time",
+            "dash-feat-3-desc": "Alert in caso di guasto",
+            "dash-feat-4": "Statistiche",
+            "dash-feat-4-desc": "Analisi dati e report mensili",
+            "maintenance-badge": "Servizio Clienti",
+            "maintenance-title": "Piano Manutenzione Annua",
+            "maintenance-desc": "Per la versione a batteria, offriamo un piano di manutenzione annuale completo che include la sostituzione programmata della batteria e il controllo funzionale del dispositivo.",
+            "maintenance-includes": "Il piano include:",
+            "maint-1": "Sostituzione batteria certificata",
+            "maint-2": "Test funzionalità completo",
+            "maint-3": "Libretto di manutenzione ufficiale",
+            "maint-4": "Supporto tecnico prioritario",
+            "maintenance-guarantee": "Garanzia estesa inclusa",
+            "maintenance-guarantee-desc": "Valida solo con piano manutenzione attivo",
+            "collaudo-badge": "Collaudo Università del Sannio",
+            "collaudo-title": "Collaudo Funzionale",
+            "collaudo-desc": "Il sistema SismAllarm è stato sottoposto a collaudo funzionale presso i laboratori dell'Università del Sannio, in collaborazione con il Dipartimento di Ingegneria. I test hanno confermato la corretta funzionalità di rivelazione sismica, con una adeguata robustezza dell'algoritmo di elaborazione.",
+            "collaudo-results-title": "Risultati del Collaudo:",
+            "collaudo-result-1": "Attivazione mirata sulle vibrazioni sismiche",
+            "collaudo-result-2": "Intervento automatico su controllo elettrico",
+            "collaudo-result-3": "Funzionalità conforme ai requisiti tecnici",
+            "collaudo-collab-title": "Collaborazione scientifica",
+            "collaudo-collab-desc": "Test realizzati in collaborazione con l'Università del Sannio",
+            "specs-title": "Dettagli",
+            "spec-sensor": "Sensore",
+            "spec-sensor-val": "Accelerometro MEMS ad alta sensibilità",
+            "spec-range": "Installazione a parete",
+            "spec-range-val": "Fissato con 3 tasselli",
+            "spec-power": "Alimentazione",
+            "spec-power-val": "220V AC / Batteria integrata (versione battery)",
+            "spec-alarm": "Allarme sonoro",
+            "spec-alarm-val": "110dB @ 1 metro, frequenza 3kHz",
+            "spec-valve": "Elettrovalvole",
+            "spec-valve-val": "Compatibili 1/2\" - 2\"",
+            "spec-net": "Connettività Pro",
+            "spec-net-val": "Ethernet RJ45",
+            "spec-temp": "Temperatura",
+            "spec-temp-val": "-10°C / +45°C umidità 90% non condensante",
+            "contact-title": "Richiedi Informazioni",
+            "contact-subtitle": "Il nostro team tecnico è a disposizione per analizzare le esigenze specifiche del tuo edificio",
+            "contact-email": "Email",
+            "contact-phone": "Telefono",
+            "contact-office": "Sede",
+            "form-name": "Nome",
+            "form-email": "Email",
+            "form-subject": "Tipo Richiesta",
+            "form-select": "Seleziona...",
+            "form-opt-info": "Informazioni generali",
+            "form-opt-quote": "Preventivo",
+            "form-opt-pro": "Versione Pro",
+            "form-opt-battery": "Versione Battery",
+            "form-opt-maint": "Piano manutenzione",
+            "form-message": "Messaggio",
+            "form-send": "Invia Richiesta",
+            "footer-desc": "Tecnologia italiana avanzata per la sicurezza sismica. Proteggiamo edifici e persone attraverso sistemi intelligenti di rilevamento e intervento automatico.",
+            "footer-links": "Sezioni",
+            "nav-how": "Come Funziona",
+            "nav-modules": "Moduli",
+            "nav-versions": "Versioni",
+            "nav-contact": "Contatti",
+            "footer-legal": "Legale",
+            "nav-privacy": "Privacy Policy",
+            "nav-terms": "Termini di Servizio",
+            "nav-certs": "Certificazioni",
+            "footer-rights": "Tutti i diritti riservati"
+            },
+            en: {
+            "hero-badge": "Advanced Italian Technology",
+            "hero-title": "Protect what matters most",
+            "hero-subtitle": "Intelligent seismic detection system with audible alarm and automatic intervention on systems and solenoid valves.",
+            "hero-stat-1": "Pro Model",
+            "hero-stat-2": "Web Dashboard included",
+            "cta-primary": "Discover Versions",
+            "cta-secondary": "Request Quote",
+            "how-title": "SismAllarm Technology",
+            "how-subtitle": "High-precision sensors constantly monitor seismic vibrations and intervene instantly when dangerous shocks are detected.",
+            "step-1-title": "Continuous Detection",
+            "step-1-desc": "Advanced seismic sensors analyze vibrations in real-time, comparing them with internal calibrated energy thresholds to detect dangerous shocks.",
+            "step-2-title": "Instant Analysis",
+            "step-2-desc": "Intelligent algorithms determine if the shock has reached critical levels, immediately activating configured safety protocols.",
+            "step-3-title": "Automatic Intervention",
+            "step-3-desc": "Immediate activation of siren and/or gas valve closure to prevent leaks and ensure maximum building safety.",
+            "modules-title": "Configurable Modules",
+            "modules-subtitle": "Customize your system based on your building's specific needs",
+            "audio-title": "Audio Alarm Module",
+            "audio-desc": "Powerful integrated 110dB siren for immediate acoustic signaling when dangerous shocks are detected. Also available in standalone battery version.",
+            "audio-feat-1": "Instant acoustic signaling",
+            "audio-feat-2": "Integrated 110dB siren",
+            "audio-feat-3": "Battery version available",
+            "gas-title": "Gas Solenoid Valve Module",
+            "gas-desc": "Automatic intervention on gas pipe solenoid valves to immediately shut off flow in case of dangerous seismic shock.",
+            "gas-feat-1": "Automatic gas valve closure",
+            "gas-feat-2": "Leak and fire prevention",
+            "gas-feat-3": "Compatible with existing systems",
+            "versions-title": "Choose the Version for You",
+            "versions-subtitle": "From base system to complete solution with cloud monitoring",
+            "std-title": "Standard",
+            "std-subtitle": "Mains powered",
+            "std-feat-1": "Advanced seismic detection",
+            "std-feat-2": "110dB audio alarm module",
+            "std-feat-3": "Solenoid valve module (optional)",
+            "std-feat-4": "220V power supply",
+            "btn-info": "Request Info",
+            "pro-badge": "POPULAR",
+            "pro-title": "Pro",
+            "pro-subtitle": "With Ethernet connection",
+            "pro-feat-1": "All Standard functions",
+            "pro-feat-2": "Integrated Ethernet connection",
+            "pro-feat-3": "Web history dashboard",
+            "pro-feat-4": "24/7 report availability",
+            "pro-feat-5": "Self-diagnosis integrated",
+            "btn-configure": "Discover Pro",
+            "battery-title": "Siren Only Battery",
+            "battery-subtitle": "Standalone and wireless",
+            "battery-feat-1": "Standalone 100dB siren",
+            "battery-feat-2": "Battery powered",
+            "battery-feat-3": "Easy installation",
+            "battery-feat-4": "Maintenance plan included",
+            "btn-maintenance": "See Maintenance Plan",
+            "dashboard-badge": "Pro Version Exclusive",
+            "dashboard-title": "Advanced Web Dashboard",
+            "dashboard-desc": "With the Pro version, access your personal control panel via web. View complete detection history, receive reports and monitor system status from any device.",
+            "dash-feat-1": "Event History",
+            "dash-feat-1-desc": "Complete log of detected shocks",
+            "dash-feat-2": "Mobile Ready",
+            "dash-feat-2-desc": "Access from smartphones and tablets",
+            "dash-feat-3": "Real-time Self-diagnosis",
+            "dash-feat-3-desc": "Alert in case of fault",
+            "dash-feat-4": "Statistics",
+            "dash-feat-4-desc": "Data analysis and monthly reports",
+            "maintenance-badge": "Customer Service",
+            "maintenance-title": "Annual Maintenance Plan",
+            "maintenance-desc": "For the battery version, we offer a complete annual maintenance plan that includes scheduled battery replacement and functional device testing.",
+            "maintenance-includes": "The plan includes:",
+            "maint-1": "Certified battery replacement",
+            "maint-2": "Complete functionality test",
+            "maint-3": "Official maintenance booklet",
+            "maint-4": "Priority technical support",
+            "maintenance-guarantee": "Extended warranty included",
+            "maintenance-guarantee-desc": "Valid only with active maintenance plan",
+            "collaudo-badge": "Testing at University of Sannio",
+            "collaudo-title": "Functional Testing", 
+            "collaudo-desc": "The SismAllarm system underwent functional testing at the University of Sannio laboratories, in collaboration with the Engineering Department. Tests confirmed correct seismic detection functionality with adequate algorithm robustness.",
+            "collaudo-results-title": "Test Results:",
+            "collaudo-result-1": "Targeted activation on seismic vibrations",
+            "collaudo-result-2": "Automatic intervention on electrical control",
+            "collaudo-result-3": "Functionality compliant with technical requirements",
+            "collaudo-collab-title": "Scientific Collaboration",
+            "collaudo-collab-desc": "Tests conducted in collaboration with University of Sannio",
+            "specs-title": "Details",
+            "spec-sensor": "Sensor",
+            "spec-sensor-val": "High-sensitivity MEMS accelerometer",
+            "spec-range": "Wall installation",
+            "spec-range-val": "Fixed with 3 plugs",
+            "spec-power": "Power supply",
+            "spec-power-val": "220V AC / Integrated battery (battery version)",
+            "spec-alarm": "Audio alarm",
+            "spec-alarm-val": "110dB @ 1 meter, 3kHz frequency",
+            "spec-valve": "Solenoid valves",
+            "spec-valve-val": "Compatible 1/2\" - 2\"",
+            "spec-net": "Pro Connectivity",
+            "spec-net-val": "Ethernet RJ45",
+            "spec-temp": "Temperature",
+            "spec-temp-val": "-10°C / +45°C 90% humidity non-condensing",
+            "contact-title": "Request Information",
+            "contact-subtitle": "Our technical team is available to analyze your building's specific needs",
+            "contact-email": "Email",
+            "contact-phone": "Phone",
+            "contact-office": "Office",
+            "form-name": "Name",
+            "form-email": "Email",
+            "form-subject": "Request Type",
+            "form-select": "Select...",
+            "form-opt-info": "General information",
+            "form-opt-quote": "Quote",
+            "form-opt-pro": "Pro Version",
+            "form-opt-battery": "Battery Version",
+            "form-opt-maint": "Maintenance plan",
+            "form-message": "Message",
+            "form-send": "Send Request",
+            "footer-desc": "Advanced Italian technology for seismic safety. We protect buildings and people through intelligent detection and automatic intervention systems.",
+            "footer-links": "Sections",
+            "nav-how": "How it Works",
+            "nav-modules": "Modules",
+            "nav-versions": "Versions",
+            "nav-contact": "Contact",
+            "footer-legal": "Legal",
+            "nav-privacy": "Privacy Policy",
+            "nav-terms": "Terms of Service",
+            "nav-certs": "Certifications",
+            "footer-rights": "All rights reserved"
+            }
+        };
+
+        let currentLang = 'it';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update buttons
+            document.getElementById('btn-it').classList.toggle('active', lang === 'it');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            if (lang === 'it') {
+                document.getElementById('btn-it').classList.add('bg-red-600', 'text-white');
+                document.getElementById('btn-it').classList.remove('text-slate-600');
+                document.getElementById('btn-en').classList.remove('bg-red-600', 'text-white');
+                document.getElementById('btn-en').classList.add('text-slate-600');
+                document.documentElement.lang = 'it';
+            } else {
+                document.getElementById('btn-en').classList.add('bg-red-600', 'text-white');
+                document.getElementById('btn-en').classList.remove('text-slate-600');
+                document.getElementById('btn-it').classList.remove('bg-red-600', 'text-white');
+                document.getElementById('btn-it').classList.add('text-slate-600');
+                document.documentElement.lang = 'en';
+            }
+            
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+            
+            localStorage.setItem('sismallarm-lang', lang);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Check for saved language preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('sismallarm-lang');
+            if (savedLang && savedLang !== 'it') {
+                switchLanguage(savedLang);
+            }
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close mobile menu if open
+                        document.getElementById('mobile-menu').classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Form submission handler
+            document.querySelector('form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert(currentLang === 'it' ? 'Grazie per la richiesta! Ti contatteremo presto.' : 'Thank you for your request! We will contact you soon.');
+            });
+        });
+    </script>
+</body>
+</html>
